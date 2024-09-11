@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int main() {
+    int n, i;
+
+    // Input the value of n
+    printf("Enter a number to find its factors: ");
+    scanf("%d", &n);
+
+    printf("Factors of %d are: ", n);
+    
+    // Loop through all numbers from 1 to n
+    for (i = 1; i <= n; i++) {
+        if (n % i == 0) {
+            printf("%d ", i);  // If i divides n, it is a factor
+        }
+    }
+    
+    printf("\n");
+    return 0;
+}
