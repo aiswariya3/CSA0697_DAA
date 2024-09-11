@@ -1,0 +1,67 @@
+#include <stdio.h>
+
+// Structure to represent an item with weight and value
+typedef struct {
+    int weight;
+    int value;
+} Item;
+
+// Function to find the maximum value of items that can be loaded into the container
+int containerLoader(Item items[], int n, int capacity) {
+    int totalValue = 0;
+
+    for (int i = 0; i < n; i++) {
+        if (items[i].weight <= capacity) {
+            // If the entire item can be included
+            capacity -= items[i].weight;
+            totalValue += items[i].value;
+        } else {
+            // If only a part of the item can be included
+            totalValue += items[i].value * (float)capacity / items[i].weight;
+            break;
+        }
+    }
+
+    return totalValue;
+}
+
+int main() {
+    int n, capacity;
+
+    // Input number of items
+    printf("Enter the number of items: ");
+    scanf("%d", &n);
+
+    Item items[n];
+
+    // Input items' weight and value
+    printf("Enter the weight and value of each item:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d %d", &items[i].weight, &items[i].value);
+    }
+
+    // Input the capacity of the container
+    printf("Enter the capacity of the container: ");
+    scanf("%d", &capacity);
+
+    // Sort items by value-to-weight ratio in descending order
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            float r1 = (float)items[j].value / items[j].weight;
+            float r2 = (float)items[j + 1].value / items[j + 1].weight;
+            if (r1 < r2) {
+                Item temp = items[j];
+                items[j] = items[j + 1];
+                items[j + 1] = temp;
+            }
+        }
+    }
+
+    // Calculate the maximum value that can be obtained
+    int maxValue = containerLoader(items, n, capacity);
+
+    // Print the result
+    printf("Maximum value in the container = %d\n", maxValue);
+
+    return 0;
+}
