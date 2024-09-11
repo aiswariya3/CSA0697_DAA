@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <limits.h>
+
+#define N 4  // Number of tasks or agents
+
+// Function to find the minimum value in a row (excluding a column)
+int findMin(int cost[N][N], int row, int excludeCol) {
+    int min = INT_MAX;
+    for (int j = 0; j < N; j++) {
+        if (j != excludeCol && cost[row][j] < min) {
+            min = cost[row][j];
+        }
+    }
+    return min;
+}
+
+// Function to calculate the minimum cost using Branch and Bound
+void findMinCost(int cost[N][N]) {
+    int totalCost = 0;
+    int assigned[N] = {0};  // Keep track of assigned tasks
+    int taskForAgent[N];    // To store the final assignment
+
+    // For each agent, find the minimum cost task and assign
+    for (int i = 0; i < N; i++) {
+        int minCost = INT_MAX;
+        int bestTask = -1;
+        for (int j = 0; j < N; j++) {
+            if (!assigned[j] && cost[i][j] < minCost) {
+                minCost = cost[i][j];
+                bestTask = j;
+            }
+        }
+        assigned[bestTask] = 1;
+        taskForAgent[i] = bestTask;
+        totalCost += minCost;
+    }
+
+    // Print the assignments and total minimum cost
+    printf("Task Assignment:\n");
+    for (int i = 0; i < N; i++) {
+        printf("Agent %d is assigned Task %d\n", i, taskForAgent[i]);
+    }
+    printf("Total Minimum Cost: %d\n", totalCost);
+}
+
+int main() {
+    // Cost matrix representing the cost of assigning each agent to a task
+    int cost[N][N] = {
+        {9, 2, 7, 8},
+        {6, 4, 3, 7},
+        {5, 8, 1, 8},
+        {7, 6, 9, 4}
+    };
+
+    // Find the minimum cost using Branch and Bound
+    findMinCost(cost);
+
+    return 0;
+}
