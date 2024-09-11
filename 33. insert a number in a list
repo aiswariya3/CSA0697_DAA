@@ -1,0 +1,40 @@
+#include <stdio.h>
+
+int main() {
+    int n, i, num, pos;
+
+    // Input the size of the array
+    printf("Enter the number of elements in the array: ");
+    scanf("%d", &n);
+
+    int arr[n + 1];  // Array with extra space for new element
+
+    // Input the elements of the array
+    printf("Enter the elements of the array:\n");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    // Input the number to be inserted and its position
+    printf("Enter the number to insert: ");
+    scanf("%d", &num);
+    printf("Enter the position (1 to %d): ", n+1);
+    scanf("%d", &pos);
+
+    // Shift elements to the right to make space for new element
+    for (i = n; i >= pos; i--) {
+        arr[i] = arr[i - 1];
+    }
+
+    // Insert the new element at the specified position
+    arr[pos - 1] = num;
+
+    // Output the updated array
+    printf("Array after insertion:\n");
+    for (i = 0; i <= n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
